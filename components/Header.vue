@@ -1,6 +1,6 @@
 <template>
     <header class="header">
-      <div class="logo-container">
+      <div ref="heroText2" class="logo-container">
       <!-- Link to navigate to the homepage -->
       <NuxtLink to="/" class="logo">
         <img src="~/assets/images/logo.png" alt="Logo" />
@@ -15,6 +15,20 @@
       </nav> -->
     </header>
   </template>
+
+  <script setup>
+  import gsap from "gsap";
+
+  const heroText2 = ref(null);
+
+  onMounted(() => {
+  gsap.fromTo(
+    heroText2.value,
+    { opacity: 0, y: 50 },
+    { opacity: 1, y: 0, duration: 3.5, ease: "power4.out" }
+  );
+});
+</script>
   
   <style scoped>
   .header {
