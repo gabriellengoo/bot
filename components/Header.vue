@@ -3,7 +3,7 @@
       <div class="logo-container">
       <!-- Link to navigate to the homepage -->
       <NuxtLink to="/" class="logo">
-        <img src="/logo.png" alt="Logo" />
+        <img src="~/assets/images/logo.png" alt="Logo" />
       </NuxtLink>
       <h1 class="logo">PandaNova</h1>
     </div>
