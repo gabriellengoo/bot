@@ -14,8 +14,8 @@
           of token launches.
         </p>
         <a href="https://t.me/PandaNovaNews" class="cta-button">
-  <span>Go To Channel</span>
-</a>
+          <span>Go To Channel</span>
+        </a>
       </div>
       <div class="secthero2">
         <!-- <p>test</p> -->
@@ -25,7 +25,7 @@
 
     <!-- Features Section -->
     <section class="features">
-      <div class="blurry-shape ">
+      <div class="blurry-shape">
         <img
           src="https://soltradingbot.com/assets/images/shapes/blurry-shape-3.svg"
           alt=""
@@ -33,37 +33,32 @@
         />
       </div>
       <h2 class="animated-textsub">Our current offerings include</h2>
-     <div class="sec1two">
-      <div >
-     
-        <img
-          src="assets/images/phone.png"
-          alt=""
-          class="phone"
-        />
-  
-      </div>
-      <div>
-        <div class="feature-grid2">
-        <div
-          v-for="(feature2, index) in features2"
-          :key="index"
-          class="feature-item2"
-        >
-          <img class="imgicons" :src="feature2.icon" alt="Feature Icon" />
-          <h3>{{ feature2.title }}</h3>
-          <p>{{ feature2.description }}</p>
+      <div class="sec1two">
+        <div>
+          <img src="assets/images/phone.png" alt="" class="phone" />
+        </div>
+        <div>
+          <div class="feature-grid2">
+            <div
+              v-for="(feature2, index) in features2"
+              :key="index"
+              class="feature-item2"
+            >
+              <img class="imgicons" :src="feature2.icon" alt="Feature Icon" />
+              <h3>{{ feature2.title }}</h3>
+              <p>{{ feature2.description }}</p>
+            </div>
+          </div>
+          <p class="subtextherosub2">
+            Both bots are designed to work seamlessly through an intuitive
+            Telegram interface, ensuring a user-friendly and accessible
+            experience. At PandaNova, we’re committed to empowering users with
+            tools that deliver reliability, speed, and results. Start your
+            journey with us today and take your Pump.Fun strategy to the next
+            level.
+          </p>
         </div>
       </div>
-      <p class="subtextherosub2">
-        Both bots are designed to work seamlessly through an intuitive Telegram
-        interface, ensuring a user-friendly and accessible experience. At
-        PandaNova, we’re committed to empowering users with tools that deliver
-        reliability, speed, and results. Start your journey with us today and
-        take your Pump.Fun strategy to the next level.
-      </p>
-    </div>
-     </div>
     </section>
 
     <!-- Features Section -->
@@ -75,7 +70,7 @@
           class=""
         />
       </div> -->
-    
+
       <h2 class="animated-textsub">Referral Program</h2>
       <h2 class="subtextherosub2">
         At PandaNova, we believe in rewarding our users for spreading the word.
@@ -133,15 +128,29 @@
     <!-- Slider Section -->
     <!-- Slider Section with Title and Text -->
     <section class="slider-section">
-      <!-- <h2 class="section-title">What Our Clients Say</h2> -->
-      <div class="slider">
-        <div
-          v-for="(slide, index) in sliderData"
-          :key="index"
-          class="slider-box"
-        >
-          <h3 class="slider-box-title">{{ slide.title }}</h3>
-          <div class="slider-box-text" v-html="slide.text"></div>
+      <div class="slider-container">
+        <!-- Slider Content -->
+        <div class="slider">
+          <div
+            v-for="(slide, index) in sliderData"
+            :key="index"
+            class="slider-box"
+            :class="{ active: currentSlide === index }"
+          >
+            <h3 class="slider-box-title">{{ slide.title }}</h3>
+            <div class="slider-box-text" v-html="slide.text"></div>
+          </div>
+        </div>
+
+        <!-- Dot Indicators -->
+        <div class="dot-indicators">
+          <span
+            v-for="(slide, index) in sliderData"
+            :key="index"
+            :class="{ active: currentSlide === index }"
+            class="dot"
+            @click="scrollToSlide(index)"
+          ></span>
         </div>
       </div>
     </section>
@@ -173,15 +182,29 @@
     <!-- Slider Section -->
     <!-- Slider Section with Title and Text -->
     <section class="slider-section">
-      <!-- <h2 class="section-title">What Our Clients Say</h2> -->
-      <div class="slider">
-        <div
-          v-for="(slide, index) in sliderData2"
-          :key="index"
-          class="slider-box"
-        >
-          <h3 class="slider-box-title">{{ slide.title }}</h3>
-          <div class="slider-box-text" v-html="slide.text"></div>
+      <div class="slider-container">
+        <!-- Slider Content -->
+        <div class="slider">
+          <div
+            v-for="(slide, index) in sliderData2"
+            :key="index"
+            class="slider-box"
+            :class="{ active: currentSlide === index }"
+          >
+            <h3 class="slider-box-title">{{ slide.title }}</h3>
+            <div class="slider-box-text" v-html="slide.text"></div>
+          </div>
+        </div>
+
+        <!-- Dot Indicators -->
+        <div class="dot-indicators">
+          <span
+            v-for="(slide, index) in sliderData2"
+            :key="index"
+            :class="{ active: currentSlide === index }"
+            class="dot"
+            @click="scrollToSlide(index)"
+          ></span>
         </div>
       </div>
     </section>
@@ -211,6 +234,7 @@
 import { onMounted, ref } from "vue";
 import gsap from "gsap";
 import lottie from "lottie-web";
+
 
 const animationContainer = ref(null);
 
@@ -342,7 +366,6 @@ const sliderData = [
   },
 ];
 
-
 const sliderData2 = [
   {
     title: `🚀 Getting Started`,
@@ -468,6 +491,30 @@ onMounted(() => {
     { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }
   );
 
+   // Features Section Animation
+   gsap.from(".feature-item2", {
+    opacity: 0,
+    y: 30,
+    duration: 1,
+    stagger: 0.2, // Animates items one after another
+    scrollTrigger: {
+      trigger: ".features",
+      start: "top 75%",
+      toggleActions: "play none none reverse", // Play when in view
+    },
+  });
+
+  // Add other section animations
+  gsap.from(".phone", {
+    x: -100,
+    opacity: 0,
+    duration: 1,
+    scrollTrigger: {
+      trigger: ".phone",
+      start: "top 85%",
+    },
+  });
+
   lottie.loadAnimation({
     container: animationContainer.value, // The DOM element to render the animation in
     renderer: "svg", // svg, canvas, or html
@@ -478,21 +525,46 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+<script>
+export default {
+  data() {
+    return {
+      currentSlide: 0,
+      sliderData2: [],
+    };
+  },
+  methods: {
+    scrollToSlide(index) {
+      this.currentSlide = index;
+      const slider = this.$el.querySelector(".slider");
+      const slideWidth = this.$el.querySelector(".slider-box").offsetWidth;
+      slider.scrollTo({
+        left: index * slideWidth,
+        behavior: "smooth",
+      });
+    },
+  },
+};
+</script>
 
-body{
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+
+body {
   font-family: "Space Grotesk", serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
 }
 
-h1, h2, h3, p {
+h1,
+h2,
+h3,
+p {
   font-family: "Space Grotesk", serif;
 }
 
-h2{
+h2 {
   font-weight: normal;
 }
 
@@ -523,10 +595,10 @@ h2{
 
 .feature-textn h2 {
   font-size: 4.5vw;
-    font-weight: 900;
-    margin-bottom: 2vw;
-    margin-top: 0;
-    color: #5d2be9;
+  font-weight: 900;
+  margin-bottom: 2vw;
+  margin-top: 0;
+  color: #5d2be9;
 }
 
 .feature-textn p {
@@ -537,11 +609,11 @@ h2{
 /* Slider Section Styles */
 /* Slider Section Styles */
 .slider-section {
-  padding: 6vw 2vw;
-  width: 100vw;
+  /* width: 100vw;
     position: relative;
-    left: -15vw;
-    padding: 6vw 2vw;
+    left: -15vw; */
+  /* width: 40vw; */
+  padding: 6vw 2vw;
   /* background-color: #131313; */
 }
 
@@ -563,22 +635,23 @@ h2{
 
 .slider-box {
   min-width: 23vw;
-    padding: 2vw;
-    /* background-color: #030303; */
-    /* border: 0.1vw solid #5d2be9; */
-    border-radius: 1vw;
-    text-align: center;
-    color: white;
-    box-shadow: 0 vw 1vw rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    height: 60vh;
-    width: 49vw;
-    /* max-width: 90%; */
-    background: #131313;
-    border-radius: 2.8vw;
-    padding: 4.4vw 5vw 4vw;
+  padding: 2vw;
+  /* background-color: #030303; */
+  /* border: 0.1vw solid #5d2be9; */
+  border-radius: 1vw;
+  text-align: center;
+  color: white;
+  box-shadow: 0 vw 1vw rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  height: 60vh;
+  width: 49vw;
+  max-height: 60vw;
+  /* max-width: 90%; */
+  background: #131313;
+  border-radius: 2.8vw;
+  padding: 4.4vw 3vw 3vw;
 }
 
 .slider-box:hover {
@@ -587,13 +660,13 @@ h2{
 }
 
 .slider-box-title {
-  font-size: 2.5vw;
+  font-size: 1.5vw;
   margin-bottom: 1vw;
   color: #5d2be9;
 }
 
 .slider-box-text {
-  font-size: 1.2vw;
+  font-size: 1vw;
   padding-top: 2vw;
   /* color: #929292; */
   text-align: left;
@@ -695,20 +768,20 @@ h2{
 
 .subtexthero {
   font-size: 1.2vw;
-  color: hsla(0,0%,100%,.6);
+  color: hsla(0, 0%, 100%, 0.6);
   text-align: left;
 }
 
 .subtextherosub {
   font-size: 1vw;
-  color: hsla(0,0%,100%,.6);
+  color: hsla(0, 0%, 100%, 0.6);
   text-align: left;
 }
 
 .subtextherosub2 {
   font-size: 1.2vw;
   color: white;
-  color: hsla(0,0%,100%,.6);
+  color: hsla(0, 0%, 100%, 0.6);
   text-align: center;
 }
 
@@ -719,11 +792,9 @@ h2{
   z-index: -1;
 }
 
-.secbg{
+.secbg {
   opacity: 0.05;
 }
-
-
 
 .blurry-shape img {
   position: absolute;
@@ -732,7 +803,7 @@ h2{
   pointer-events: none;
 }
 
-.secbg img{
+.secbg img {
   top: 25vh;
   /* width: 50vw; */
 }
@@ -765,7 +836,7 @@ h2{
 }
 
 .cta-button::before {
-  content: '→'; /* Arrow symbol */
+  content: "→"; /* Arrow symbol */
   position: absolute;
   left: -2vw; /* Start off-screen */
   transition: left 0.3s ease-in-out;
@@ -803,8 +874,6 @@ h2{
   left: -2vw; /* Slide arrow back to the left */
 }
 
-
-
 a {
   text-decoration: none;
   width: 40%;
@@ -820,30 +889,30 @@ a {
 
 .feature-grid {
   /* padding-top: 2vw; */
-    display: flex;
-    /* flex-wrap: wrap; */
-    /* gap: 2vw; */
-    justify-content: center;
-    flex-direction: row;
+  display: flex;
+  /* flex-wrap: wrap; */
+  /* gap: 2vw; */
+  justify-content: center;
+  flex-direction: row;
 }
 
 .feature-grid .feature-item2 p::before {
-  content: '↓';
-    transition: left 0.3s ease-in-out;
-    font-size: 5vw;
-    color: #5d2be9;
-    position: relative;
-    display: flex;
-    flex-direction: column;
+  content: "↓";
+  transition: left 0.3s ease-in-out;
+  font-size: 5vw;
+  color: #5d2be9;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .feature-grid2 {
   padding-top: 2vw;
-    display: flex;
-    /* flex-wrap: wrap; */
-    gap: 2vw;
-    justify-content: center;
-    flex-direction: row;
+  display: flex;
+  /* flex-wrap: wrap; */
+  gap: 2vw;
+  justify-content: center;
+  flex-direction: row;
 }
 
 .feature-grid3 {
@@ -884,7 +953,7 @@ a {
   padding: 2vw;
   padding-top: 0;
   text-align: center;
-    width: auto;
+  width: auto;
   color: #dedede;
   /* min-width: max-content; */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -920,11 +989,11 @@ a {
   text-align: center;
 }
 
-.sec1two{
+.sec1two {
   display: flex;
 }
 
-.phone{
+.phone {
   width: 20vw;
   padding-right: 3vw;
 }
@@ -935,14 +1004,14 @@ margin-bottom: 4vw;
 
 .hero-background {
   position: absolute;
-    top: 50vh;
-    left: 20vw;
-    width: 100%;
-    height: auto;
-    /* background: linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)); */
-    /* background-color: #060606; */
-    pointer-events: none;
-    z-index: 0;
+  top: 50vh;
+  left: 20vw;
+  width: 100%;
+  height: auto;
+  /* background: linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)); */
+  /* background-color: #060606; */
+  pointer-events: none;
+  z-index: 0;
 }
 
 .hero-background::before {
@@ -972,9 +1041,6 @@ margin-bottom: 4vw;
     opacity: 0.6;
   }
 }
-
-
-
 
 /* Hide the default scrollbar */
 html,
@@ -1007,20 +1073,20 @@ body {
 }
 
 @media (max-width: 768px) {
-  .hero{
+  .hero {
     text-align: center;
     background-color: #060606;
     height: auto;
     display: flex;
     justify-content: center;
     justify-content: space-between;
-}
-.animated-text{
+  }
+  .animated-text {
     font-size: 4.5vw;
     font-weight: 700;
     color: #5d2be9;
     text-align: center;
-}
+  }
   .slider-box-text {
     font-size: 4.5vw;
     padding-top: 2vw;
@@ -1052,18 +1118,18 @@ body {
     margin-top: 7vw;
   }
 
-  .sec1two{
+  .sec1two {
     display: flex;
     flex-direction: column;
-}
+  }
 
-.feature-grid2 {
+  .feature-grid2 {
     padding-top: 2vw;
     display: flex;
     gap: 2vw;
     justify-content: center;
     flex-direction: column;
-}
+  }
 
   .slider-section {
     /* width: 100vw; */
@@ -1074,21 +1140,21 @@ body {
     padding: 0;
   }
 
-  .feature-flex-container{
+  .feature-flex-container {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 2vw;
     flex-direction: column;
     text-align: center;
-}
+  }
 
   .all {
     /* padding: 10vw; */
     padding-top: 0;
   }
 
-  .imgiconsnani{
+  .imgiconsnani {
     display: none;
   }
 
@@ -1098,7 +1164,7 @@ body {
     padding: 4vw;
     margin-top: 10vh;
     border: 0.1vw solid #5d2be9;
-}
+  }
 
   .hero {
     text-align: center;
@@ -1116,18 +1182,17 @@ body {
     align-items: center;
   }
 
-  .hero-background{
+  .hero-background {
     display: none;
   }
 
-  .imgicons{
+  .imgicons {
     max-width: 22vw;
   }
 
-
-.lottie-animation-container{
-  margin-top: 5vh;
-}
+  .lottie-animation-container {
+    margin-top: 5vh;
+  }
 
   .secthero2 {
     max-width: 100%;
@@ -1149,14 +1214,14 @@ body {
 
   .cta-button {
     margin-top: 2vw;
-        padding: 4vw 6vw;
-        font-size: 4vw;
-        background-color: #aa51ea00 !important;
-        border: .2vw solid #5d2be9;
-        border-radius: 15vw;
-        cursor: pointer;
-        width: 58%;
-        transition: background-color 0.5s ease;
+    padding: 4vw 6vw;
+    font-size: 4vw;
+    background-color: #aa51ea00 !important;
+    border: 0.2vw solid #5d2be9;
+    border-radius: 15vw;
+    cursor: pointer;
+    width: 58%;
+    transition: background-color 0.5s ease;
   }
 
   .feature-item {
@@ -1172,20 +1237,20 @@ body {
 
   .feature-item2 {
     /* background-color: #1313138d; */
-        /* border: 0.1vw solid #5d2be9; */
-        border-radius: 50vw;
-        /* padding: 8vw; */
-        text-align: center;
-        /* width: 100%; */
-        margin-top: 6vw;
-        /* min-width: max-content; */
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* border: 0.1vw solid #5d2be9; */
+    border-radius: 50vw;
+    /* padding: 8vw; */
+    text-align: center;
+    /* width: 100%; */
+    margin-top: 6vw;
+    /* min-width: max-content; */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   .phone {
     width: 100%;
     padding-right: 3vw;
-}
+  }
 
   .feature-item3 {
     background-color: #13131300;
@@ -1223,5 +1288,55 @@ body {
   .feature-item2 {
     color: white;
   }
+}
+
+.slider-section {
+  position: relative;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slider {
+  display: flex;
+  scroll-snap-type: x mandatory;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  width: 100%;
+  gap: 20px;
+}
+
+.slider-box {
+  scroll-snap-align: start;
+}
+
+.slider-box.active {
+  transform: scale(1.05);
+  transition: transform 0.3s;
+}
+
+.dot-indicators {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  border-radius: 50%;
+  background-color: #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dot.active {
+  background-color: #5d2be9;
 }
 </style>
