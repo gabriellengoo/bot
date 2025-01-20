@@ -1073,6 +1073,21 @@ body {
 }
 
 @media (max-width: 768px) {
+  .slider-box.active {
+    transform: none !important;
+    transition: none !important;
+}
+
+.slider-section{
+    position: relative;
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+.dot-indicators{
+  display: none !important;
+}
+
   .hero {
     text-align: center;
     background-color: #060606;
@@ -1111,12 +1126,15 @@ body {
   }
 
   .slider-box {
-    width: auto;
-    min-width: auto;
-    border: 0.1vw solid #5d2be9;
-    background-color: #03030300;
-    margin-top: 7vw;
-  }
+        width: auto;
+        min-width: auto;
+        border: 0.1vw solid #5d2be9;
+        background-color: #03030300;
+        margin-top: 7vw;
+        height: max-content;
+        /* height: 100vh; */
+        max-height: none;
+    }
 
   .sec1two {
     display: flex;
